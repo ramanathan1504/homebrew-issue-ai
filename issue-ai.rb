@@ -5,7 +5,6 @@ class IssueAi < Formula
   sha256 "61f1c2ca846b74b95a99a50dbf2a2ff8848876efd43d0db6916d196c7dc2024e"
   license "Apache-2.0"
 
-  # FIX: Make sure this says 21!
   depends_on "openjdk@17"
 
   def install
@@ -18,8 +17,9 @@ class IssueAi < Formula
     # Create the terminal wrapper script
     (bin/"issue-ai").write <<~EOS
       #!/bin/bash
-      export JAVA_HOME="${Formula["openjdk@17"].opt_prefix}"
-      exec "#{JAVA_HOME}/bin/java" -jar "#{libexec}/issue-ai.jar" "$@"
+      # FIX: Notice the '#' here instead of '$'
+      export JAVA_HOME="#{Formula["openjdk@17"].opt_prefix}"
+      exec "${JAVA_HOME}/bin/java" -jar "#{libexec}/issue-ai.jar" "$@"
     EOS
   end
 
